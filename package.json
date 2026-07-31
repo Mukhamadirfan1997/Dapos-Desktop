@@ -6,28 +6,74 @@
         "build": "vite build",
         "dev": "vite",
         "electron": "electron electron/main.js",
-        "start": "electron electron/main.js"
+        "start": "electron electron/main.js",
+        "dist:win": "npm run build && electron-builder --win"
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.0.0",
         "axios": "^1.11.0",
         "concurrently": "^9.0.1",
         "electron": "^43.2.0",
+        "electron-builder": "^26.15.3",
         "laravel-vite-plugin": "^2.0.0",
         "tailwindcss": "^4.0.0",
         "vite": "^7.0.7"
     },
     "name": "dapos-desktop",
-    "version": "8.7.0",
-    "description": "DAPOS - Data Pokok Sekolah Desktop v8.7",
+    "version": "1.0.0",
+    "description": "DAPOS - Data Pokok Sekolah Desktop",
     "main": "electron/main.js",
     "keywords": [
         "dapos",
         "dapodik",
         "sekolah"
     ],
-    "author": "DAPOS",
+    "author": "IrfanDev97 <irfandev30@gmail.com>",
     "license": "MIT",
+    "build": {
+        "appId": "com.dapos.desktop",
+        "productName": "DAPOS Desktop",
+        "directories": {
+            "buildResources": "build",
+            "output": "dist"
+        },
+        "asar": false,
+        "files": [
+            "app/**/*",
+            "bootstrap/**/*",
+            "config/**/*",
+            "database/**/*",
+            "lang/**/*",
+            "resources/**/*",
+            "routes/**/*",
+            "storage/**/*",
+            "public/**/*",
+            "electron/**/*",
+            "vendor/**/*",
+            ".env",
+            "artisan",
+            "composer.json",
+            "composer.lock",
+            "!node_modules/**"
+        ],
+        "win": {
+            "target": [
+                "nsis"
+            ],
+            "icon": "build/icon.ico"
+        },
+        "nsis": {
+            "oneClick": false,
+            "allowToChangeInstallationDirectory": true,
+            "createDesktopShortcut": true,
+            "createStartMenuShortcut": true,
+            "shortcutName": "DAPOS Desktop",
+            "installerIcon": "build/icon.ico",
+            "uninstallerIcon": "build/icon.ico",
+            "installerHeaderIcon": "build/icon.ico",
+            "artifactName": "DAPOS-Desktop-${version}-setup.${ext}"
+        }
+    },
     "dependencies": {
         "bootstrap": "^5.3.3",
         "bootstrap-icons": "^1.13.1",

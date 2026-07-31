@@ -61,3 +61,62 @@
 .border-start {
     border-left-width: 4px !important;
 }
+
+.progress-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    font-size: 2rem;
+    border-radius: 50%;
+    background: #e7f1ff;
+    animation: progress-pulse 1.2s ease-in-out infinite;
+}
+
+.progress-icon i {
+    animation: progress-float 1.6s ease-in-out infinite;
+}
+
+@keyframes progress-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+}
+
+@keyframes progress-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+.login-body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #1d4ed8 100%);
+}
+
+.login-logo-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 96px;
+    height: 96px;
+    border-radius: 1.25rem;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(4px);
+}
+
+.login-card {
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+.login-notice {
+    border: 1px solid #ffc10733;
+    background: #fff9e6;
+    border-radius: 0.75rem;
+    color: #6d5b00;
+}
+
+

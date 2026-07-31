@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="icon" href="/favicon.ico">
     <title>@yield('title', 'DAPOS Desktop') - DAPOS Desktop</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -10,7 +12,7 @@
     <div class="d-flex" style="min-height: 100vh;">
         <div class="sidebar d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 250px;">
             <a href="{{ route('dapos.dashboard') }}" class="d-flex align-items-center mb-3 text-white text-decoration-none">
-                <i class="bi bi-mortarboard-fill me-2 fs-4"></i>
+                <img src="/images/dapos-logo.png" width="36" height="36" class="me-2 rounded-3" alt="DAPOS">
                 <span class="fs-5 fw-semibold">DAPOS Desktop</span>
             </a>
             <hr>
@@ -72,6 +74,11 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{ route('dapos.dapodik.sync') }}" class="nav-link text-white {{ request()->routeIs('dapos.dapodik.sync') ? 'active' : '' }}">
+                        <i class="bi bi-cloud-arrow-up me-2"></i> Sinkron ke Dapodik
+                    </a>
+                </li>
+                <li>
                     <a href="{{ route('dapos.dapodik.setting') }}" class="nav-link text-white {{ request()->routeIs('dapos.dapodik.setting') ? 'active' : '' }}">
                         <i class="bi bi-gear me-2"></i> Pengaturan
                     </a>
@@ -83,9 +90,12 @@
                 </li>
             </ul>
             <hr>
-            <div class="text-white-50 small text-center">
-                DAPOS Desktop
+            <div class="text-white-50 small text-center mb-2">
+                DAPOS Desktop v{{ config('app.version') }}
             </div>
+            <button type="button" class="btn btn-outline-info btn-sm w-100 check-update-btn" title="Cek pembaruan aplikasi">
+                <i class="bi bi-cloud-arrow-down me-1"></i> Cek Pembaruan
+            </button>
         </div>
 
         <div class="flex-grow-1 d-flex flex-column">
@@ -143,7 +153,7 @@
             </main>
 
             <footer class="text-center py-2 text-muted small border-top bg-white">
-                DAPOS Desktop &mdash; {{ date('Y') }}
+                DAPOS Desktop v{{ config('app.version') }} &mdash; &copy; {{ date('Y') }} Dikembangkan oleh IrfanDev97 (irfandev30@gmail.com)
             </footer>
         </div>
     </div>
@@ -163,6 +173,10 @@
             }
         });
     </script>
+    @php $disclaimerSeen = \App\Models\Setting::where('key', 'dapos_disclaimer_seen')->exists(); @endphp
+    @include('dapos.dapodik._disclaimer_modal', ['disclaimerSeen' => $disclaimerSeen])
+    @include('dapos.dapodik._update_modal')
+    @include('dapos.dapodik._progress_modal')
     @stack('scripts')
 </body>
 </html>

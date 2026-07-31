@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use App\Models\Setting;
 
 class AuthController extends Controller
 {
@@ -42,6 +43,13 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('dapos.login');
+    }
+
+    public function ackDisclaimer()
+    {
+        Setting::updateOrCreate(['key' => 'dapos_disclaimer_seen'], ['value' => '1']);
+
+        return response()->json(['success' => true]);
     }
 
     public function showAccount()

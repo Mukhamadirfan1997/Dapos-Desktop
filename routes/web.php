@@ -43,6 +43,7 @@ Route::prefix('dapos')->name('dapos.')->middleware('auth')->group(function () {
     Route::get('referensi', [ReferensiController::class, 'index'])->name('referensi');
     Route::get('akun', [AuthController::class, 'showAccount'])->name('akun');
     Route::put('akun', [AuthController::class, 'updateAccount'])->name('akun.update');
+    Route::post('disclaimer-ack', [AuthController::class, 'ackDisclaimer'])->name('disclaimer.ack');
 
     Route::prefix('dapodik')->name('dapodik.')->group(function () {
         Route::get('setting', [DapodikSettingController::class, 'index'])->name('setting');
@@ -57,6 +58,10 @@ Route::prefix('dapos')->name('dapos.')->middleware('auth')->group(function () {
         Route::get('import-all', [DapodikSettingController::class, 'importAll'])->name('import-all');
         Route::get('sync-all', [DapodikSettingController::class, 'syncAll'])->name('sync-all');
         Route::get('sync-one/{periodik}', [DapodikSettingController::class, 'syncOne'])->name('sync-one');
+
+        Route::get('sync', [DapodikSettingController::class, 'syncPage'])->name('sync');
+        Route::post('sync-batch', [DapodikSettingController::class, 'syncBatch'])->name('sync-batch');
+        Route::post('import-step/{step}', [DapodikSettingController::class, 'importStep'])->name('import-step');
     });
 
     Route::prefix('export')->name('export.')->group(function () {

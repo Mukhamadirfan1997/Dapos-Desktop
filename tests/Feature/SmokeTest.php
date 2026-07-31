@@ -8,6 +8,8 @@ use App\Models\Siswa;
 use App\Models\Rombel;
 use App\Models\Periodik;
 use App\Models\Surat;
+use App\Models\DapodikConfig;
+use App\Models\AnggotaRombel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SmokeTest extends TestCase
@@ -59,11 +61,23 @@ class SmokeTest extends TestCase
         ]);
         $rombel = Rombel::create([
             'nama' => 'Kelas 1A',
-            'tingkat' => '1',
+            'tingkat' => 'Kelas 1',
+            'tahun_ajaran' => '2026/2027',
+        ]);
+        Rombel::create([
+            'nama' => 'Kelas 2A',
+            'tingkat' => 'Kelas 2',
             'tahun_ajaran' => '2026/2027',
         ]);
         Periodik::create(['siswa_id' => $siswa->id, 'tahun_periodik' => 2026]);
+        AnggotaRombel::create(['rombel_id' => $rombel->id, 'siswa_id' => $siswa->id, 'status_di_rombel' => 'Aktif']);
         Surat::create(['jenis_surat' => 'SK', 'nomor_surat' => '001', 'tgl_surat' => now()]);
+        DapodikConfig::create([
+            'base_url' => 'http://localhost/dapodik',
+            'token' => 'test-token',
+            'npsn' => '12345678',
+            'tahun_ajaran' => '2026/2027',
+        ]);
 
         $this->actingAs($this->user);
 
@@ -90,11 +104,16 @@ class SmokeTest extends TestCase
             '/dapos/akun',
             '/dapos/dapodik/setting',
             '/dapos/dapodik/import',
+            '/dapos/dapodik/sync',
         ];
 
         foreach ($urls as $url) {
             $this->get($url)->assertOk();
         }
+
+        $daftar = $this->get('/dapos/rombel/daftar-siswa');
+        $daftar->assertOk();
+        $this->assertSame(1, substr_count($daftar->getContent(), 'id="filterSiswa"'));
     }
 
     public function test_all_exports_render(): void

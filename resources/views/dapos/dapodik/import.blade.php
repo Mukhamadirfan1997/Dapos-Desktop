@@ -21,8 +21,8 @@
                     <div><small class="text-muted">Dapodik</small><br><strong class="fs-4">{{ $stats['siswa']['dapodik'] }}</strong></div>
                 </div>
                 <div class="mt-2">
-                    <a href="{{ route('dapos.dapodik.import-siswa') }}" class="btn btn-primary btn-sm w-100"
-                        onclick="return confirm('Import data siswa dari Dapodik?')">
+                    <a href="#" class="btn btn-primary btn-sm w-100"
+                        onclick="window.DaposRunner.runImportStep('{{ url('dapos/dapodik/import-step') }}', 'siswa', 'Import Data Siswa + Periodik'); return false;">
                         <i class="bi bi-cloud-download me-1"></i> Import Siswa
                     </a>
                 </div>
@@ -39,8 +39,8 @@
                     <div><small class="text-muted">Dapodik</small><br><strong class="fs-4">{{ $stats['registrasi']['dapodik'] }}</strong></div>
                 </div>
                 <div class="mt-2">
-                    <a href="{{ route('dapos.dapodik.import-registrasi') }}" class="btn btn-dark btn-sm w-100"
-                        onclick="return confirm('Import data Registrasi dari Dapodik?')">
+                    <a href="#" class="btn btn-dark btn-sm w-100"
+                        onclick="window.DaposRunner.runImportStep('{{ url('dapos/dapodik/import-step') }}', 'registrasi', 'Import Data Registrasi'); return false;">
                         <i class="bi bi-cloud-download me-1"></i> Import Registrasi
                     </a>
                 </div>
@@ -57,8 +57,8 @@
                     <div><small class="text-muted">Dapodik</small><br><strong class="fs-4">{{ $stats['rombel']['dapodik'] }}</strong></div>
                 </div>
                 <div class="mt-2">
-                    <a href="{{ route('dapos.dapodik.import-rombel') }}" class="btn btn-info btn-sm w-100"
-                        onclick="return confirm('Import data Rombel dari Dapodik?')">
+                    <a href="#" class="btn btn-info btn-sm w-100"
+                        onclick="window.DaposRunner.runImportStep('{{ url('dapos/dapodik/import-step') }}', 'rombel', 'Import Data Rombel'); return false;">
                         <i class="bi bi-cloud-download me-1"></i> Import Rombel
                     </a>
                 </div>
@@ -75,8 +75,8 @@
                     <div><small class="text-muted">Dapodik</small><br><strong class="fs-4">{{ $stats['pembelajaran']['dapodik'] }}</strong></div>
                 </div>
                 <div class="mt-2">
-                    <a href="{{ route('dapos.dapodik.import-pembelajaran') }}" class="btn btn-secondary btn-sm w-100"
-                        onclick="return confirm('Import data Pembelajaran dari Dapodik?')">
+                    <a href="#" class="btn btn-secondary btn-sm w-100"
+                        onclick="window.DaposRunner.runImportStep('{{ url('dapos/dapodik/import-step') }}', 'pembelajaran', 'Import Data Pembelajaran'); return false;">
                         <i class="bi bi-cloud-download me-1"></i> Import Pembelajaran
                     </a>
                 </div>
@@ -86,8 +86,8 @@
 </div>
 
 <div class="text-center mb-4">
-    <a href="{{ route('dapos.dapodik.import-all') }}" class="btn btn-lg btn-primary"
-        onclick="return confirm('Import SEMUA data dari Dapodik?\n\nSiswa + Registrasi + Rombel + Anggota Rombel + Pembelajaran akan diimport/diperbarui.')">
+    <a href="#" class="btn btn-lg btn-primary"
+        onclick="window.DaposRunner.runImportAll('{{ url('dapos/dapodik/import-step') }}'); return false;">
         <i class="bi bi-cloud-download me-2"></i> Import All
     </a>
 </div>

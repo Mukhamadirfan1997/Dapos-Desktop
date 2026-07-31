@@ -46,6 +46,17 @@
                     </button>
                 </form>
             </div>
+            <div class="card-footer">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="small text-muted">
+                        <i class="bi bi-box me-1"></i> DAPOS Desktop v{{ config('app.version') }}
+                        <br><span class="small">Dikembangkan oleh IrfanDev97 (irfandev30@gmail.com)</span>
+                    </div>
+                    <button type="button" class="btn btn-outline-info btn-sm check-update-btn">
+                        <i class="bi bi-cloud-arrow-down me-1"></i> Cek Pembaruan
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

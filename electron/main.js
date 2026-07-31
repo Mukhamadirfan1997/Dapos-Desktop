@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import { spawn } from 'child_process';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -6,6 +6,8 @@ import fs from 'fs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(__dirname, '..');
+
+const GITHUB_REPO = 'Mukhamadirfan1997/Dapos-Desktop';
 
 let phpServer = null;
 let mainWindow = null;
@@ -72,11 +74,12 @@ async function createWindow(port) {
         minHeight: 600,
         icon: path.join(__dirname, 'icon.png'),
         webPreferences: {
+            preload: path.join(__dirname, 'preload.js'),
             nodeIntegration: false,
             contextIsolation: true,
         },
         autoHideMenuBar: true,
-        title: 'DAPOS v8.7 Desktop',
+        title: 'DAPOS Desktop',
         show: false,
     });
 
@@ -86,12 +89,69 @@ async function createWindow(port) {
         mainWindow.show();
     });
 
+    mainWindow.webContents.once('did-finish-load', () => {
+        silentCheckUpdate(mainWindow);
+    });
+
     mainWindow.on('closed', () => {
         mainWindow = null;
     });
 }
 
+function compareVersions(a, b) {
+    const pa = String(a || '0').split('.').map(Number);
+    const pb = String(b || '0').split('.').map(Number);
+    const len = Math.max(pa.length, pb.length);
+    for (let i = 0; i < len; i++) {
+        const va = pa[i] || 0;
+        const vb = pb[i] || 0;
+        if (va > vb) return 1;
+        if (va < vb) return -1;
+    }
+    return 0;
+}
+
+async function checkUpdate() {
+    try {
+        const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/releases/latest`, {
+            headers: { 'User-Agent': 'DAPOS-Desktop', 'Accept': 'application/vnd.github+json' },
+        });
+        if (res.status === 404) {
+            return { status: 'latest', tag: null, version: null, url: null, notes: null };
+        }
+        if (!res.ok) {
+            return { status: 'error', message: 'HTTP ' + res.status };
+        }
+        const data = await res.json();
+        const tag = data.tag_name || '';
+        const version = tag.replace(/^v/i, '');
+        const current = app.getVersion();
+        return {
+            status: compareVersions(version, current) > 0 ? 'update' : 'latest',
+            tag,
+            version,
+            url: data.html_url || `https://github.com/${GITHUB_REPO}/releases/latest`,
+            notes: data.body || null,
+        };
+    } catch (e) {
+        return { status: 'error', message: e.message || 'Koneksi gagal' };
+    }
+}
+
+async function silentCheckUpdate(win) {
+    const result = await checkUpdate();
+    if (result.status === 'update' && win && !win.isDestroyed()) {
+        win.webContents.send('update:available', result);
+    }
+}
+
 app.whenReady().then(async () => {
+    ipcMain.handle('check-update', () => checkUpdate());
+    ipcMain.handle('open-external', (_event, url) => {
+        if (typeof url === 'string' && url) shell.openExternal(url);
+    });
+    ipcMain.handle('app-version', () => app.getVersion());
+
     const port = await getFreePort();
     console.log(`Starting PHP server on port ${port}...`);
     await startPhpServer(port);
