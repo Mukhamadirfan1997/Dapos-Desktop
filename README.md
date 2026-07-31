@@ -41,6 +41,16 @@ DAPOS Desktop adalah perangkat pendukung resmi untuk operator sekolah dalam meng
 1. Unduh installer terbaru dari [halaman rilis](https://github.com/Mukhamadirfan1997/Dapos-Desktop/releases).
 2. Jalankan installer dan ikuti langkah instalasi.
 3. Buka aplikasi lalu masuk dengan akun operator.
+
+### Login Awal
+
+| | |
+|---|---|
+| **Email** | `dapos.desktop@gmail.com` |
+| **Password** | `dapos2026` |
+
+> **Penting:** Setelah berhasil masuk, segera ganti password melalui menu **Ubah Akun** untuk keamanan.
+
 4. Atur koneksi Dapodik (base URL, token, NPSN, tahun ajaran) pada menu **Dapodik Sync**.
 5. Import data atau mulai kelola data secara manual.
 
