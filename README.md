@@ -56,7 +56,7 @@ DAPOS Desktop adalah perangkat pendukung resmi untuk operator sekolah dalam meng
 
 ## Lokasi Data & Backup
 
-- **Lokasi database:** `%APPDATA%\DAPOS Desktop\database.sqlite` (folder data aplikasi milik user Windows).
+- **Lokasi database:** `%APPDATA%\dapos-desktop\database.sqlite` (folder data aplikasi milik user Windows).
 - Data tersimpan **di luar folder instalasi** sehingga tetap aman saat aplikasi di-update atau di-uninstall (uninstall tidak menghapus data).
 - Setiap user Windows memiliki database sendiri; data tidak tercampur antar user.
 - **Backup:** cukup salin file `database.sqlite` di folder di atas ke lokasi lain. Untuk restore, tutup aplikasi lalu kembalikan file tersebut.
