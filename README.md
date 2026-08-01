@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <img alt="Versi" src="https://img.shields.io/badge/versi-1.0.1-blue">
+  <img alt="Versi" src="https://img.shields.io/badge/versi-1.0.2-blue">
   <img alt="Teknologi" src="https://img.shields.io/badge/Laravel-12-red">
   <img alt="Teknologi" src="https://img.shields.io/badge/Electron-43-9cf">
 </p>
