@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <img alt="Versi" src="https://img.shields.io/badge/versi-1.0.0-blue">
+  <img alt="Versi" src="https://img.shields.io/badge/versi-1.0.1-blue">
   <img alt="Teknologi" src="https://img.shields.io/badge/Laravel-12-red">
   <img alt="Teknologi" src="https://img.shields.io/badge/Electron-43-9cf">
 </p>
@@ -53,6 +53,14 @@ DAPOS Desktop adalah perangkat pendukung resmi untuk operator sekolah dalam meng
 
 4. Atur koneksi Dapodik (base URL, token, NPSN, tahun ajaran) pada menu **Dapodik Sync**.
 5. Import data atau mulai kelola data secara manual.
+
+## Lokasi Data & Backup
+
+- **Lokasi database:** `%APPDATA%\DAPOS Desktop\database.sqlite` (folder data aplikasi milik user Windows).
+- Data tersimpan **di luar folder instalasi** sehingga tetap aman saat aplikasi di-update atau di-uninstall (uninstall tidak menghapus data).
+- Setiap user Windows memiliki database sendiri; data tidak tercampur antar user.
+- **Backup:** cukup salin file `database.sqlite` di folder di atas ke lokasi lain. Untuk restore, tutup aplikasi lalu kembalikan file tersebut.
+- Install pertama akan membuat database bersih otomatis (skema + akun admin, tanpa data contoh).
 
 ## Catatan Penting
 
