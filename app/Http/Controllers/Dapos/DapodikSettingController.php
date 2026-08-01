@@ -297,11 +297,11 @@ class DapodikSettingController extends Controller
     public function importStep(string $step)
     {
         $methods = [
-            'siswa' => 'importSiswa',
-            'registrasi' => 'importRegistrasi',
-            'rombel' => 'importRombel',
-            'anggota_rombel' => 'importAnggotaRombel',
-            'pembelajaran' => 'importPembelajaran',
+            'siswa' => 'importSiswaFromDapodik',
+            'registrasi' => 'importRegistrasiFromDapodik',
+            'rombel' => 'importRombelFromDapodik',
+            'anggota_rombel' => 'importAnggotaRombelFromDapodik',
+            'pembelajaran' => 'importPembelajaranFromDapodik',
         ];
 
         if (!isset($methods[$step])) {

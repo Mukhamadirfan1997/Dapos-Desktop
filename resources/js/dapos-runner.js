@@ -138,6 +138,7 @@
             body: fd
         }).then(function (res) {
             return res.json().catch(function () { return {}; }).then(function (json) {
+                json.ok = res.ok;
                 if (!res.ok && !json.error) json.error = 'HTTP ' + res.status;
                 return json;
             });
@@ -175,8 +176,9 @@
             post(importUrl + '/' + steps[i][0]).then(function (r) {
                 done++;
                 setProgress((done / steps.length) * 100, 'Memproses hasil...');
-                addLog(label + ' — ' + (r.message || 'selesai'), r.success !== false);
-                if (r.success === false) allOk = false;
+                var failedStep = !r.ok || r.success === false;
+                addLog(label + ' — ' + (failedStep ? (r.error || r.message || 'gagal') : (r.message || 'selesai')), !failedStep);
+                if (failedStep) allOk = false;
                 step(i + 1);
             }).catch(function (e) {
                 done++;
@@ -196,9 +198,10 @@
         setProgress(30, 'Mengirim permintaan ke Dapodik...');
         post(importUrl + '/' + stepKey).then(function (r) {
             setProgress(100, 'Selesai');
-            addLog(r.message || 'Selesai', r.success !== false);
-            if (r.success === false) {
-                setSummary('bi-x-circle', 'text-danger', 'Import Gagal', r.message || 'Terjadi kesalahan');
+            var failedStep = !r.ok || r.success === false;
+            addLog(failedStep ? ('Gagal: ' + (r.error || r.message || 'HTTP error')) : (r.message || 'Selesai'), !failedStep);
+            if (failedStep) {
+                setSummary('bi-x-circle', 'text-danger', 'Import Gagal', r.message || r.error || 'Terjadi kesalahan');
             } else {
                 setSummary('bi-check-circle', 'text-success', 'Import Selesai', r.message || '');
             }

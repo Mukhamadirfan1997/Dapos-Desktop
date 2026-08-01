@@ -20,7 +20,7 @@
         "vite": "^7.0.7"
     },
     "name": "dapos-desktop",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "DAPOS - Data Pokok Sekolah Desktop",
     "main": "electron/main.js",
     "keywords": [
