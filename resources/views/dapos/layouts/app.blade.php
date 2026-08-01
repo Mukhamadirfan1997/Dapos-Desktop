@@ -173,7 +173,12 @@
             }
         });
     </script>
-    @php $disclaimerSeen = \App\Models\Setting::where('key', 'dapos_disclaimer_seen')->exists(); @endphp
+    @php
+        use Illuminate\Support\Facades\Schema;
+        $disclaimerSeen = Schema::hasTable('settings')
+            ? \App\Models\Setting::where('key', 'dapos_disclaimer_seen')->exists()
+            : true;
+    @endphp
     @include('dapos.dapodik._disclaimer_modal', ['disclaimerSeen' => $disclaimerSeen])
     @include('dapos.dapodik._update_modal')
     @include('dapos.dapodik._progress_modal')

@@ -24,7 +24,40 @@ function getFreePort() {
     });
 }
 
-async function startPhpServer(port) {
+function getDatabasePath() {
+    return path.join(app.getPath('userData'), 'database.sqlite');
+}
+
+function ensureDatabase() {
+    const target = getDatabasePath();
+    fs.mkdirSync(path.dirname(target), { recursive: true });
+    if (!fs.existsSync(target)) {
+        const source = path.join(projectRoot, 'database', 'seed.sqlite');
+        if (fs.existsSync(source)) {
+            fs.copyFileSync(source, target);
+            console.log(`Database dibuat di: ${target}`);
+        }
+    }
+    return target;
+}
+
+function runPhpCommand(args, env) {
+    return new Promise((resolve, reject) => {
+        const child = spawn('php', args, {
+            cwd: projectRoot,
+            env,
+            stdio: ['ignore', 'pipe', 'pipe'],
+        });
+        child.stdout.on('data', (data) => console.log(`[PHP] ${data.toString()}`));
+        child.stderr.on('data', (data) => console.error(`[PHP] ${data.toString()}`));
+        child.on('close', (code) => {
+            if (code === 0) resolve();
+            else reject(new Error(`php ${args.join(' ')} gagal (kode ${code})`));
+        });
+    });
+}
+
+async function startPhpServer(port, databasePath) {
     const publicDir = path.join(projectRoot, 'public');
     const storageDir = path.join(projectRoot, 'storage');
 
@@ -36,6 +69,7 @@ async function startPhpServer(port) {
         APP_ENV: 'production',
         APP_DEBUG: 'false',
         APP_URL: `http://localhost:${port}`,
+        DB_DATABASE: databasePath,
     });
 
     phpServer = spawn('php', [
@@ -153,8 +187,15 @@ app.whenReady().then(async () => {
     ipcMain.handle('app-version', () => app.getVersion());
 
     const port = await getFreePort();
+    const databasePath = ensureDatabase();
+    await runPhpCommand(['artisan', 'migrate', '--force'], Object.assign({}, process.env, {
+        APP_ENV: 'production',
+        APP_DEBUG: 'false',
+        DB_DATABASE: databasePath,
+    }));
+    console.log(`Database siap: ${databasePath}`);
     console.log(`Starting PHP server on port ${port}...`);
-    await startPhpServer(port);
+    await startPhpServer(port, databasePath);
     console.log(`PHP server started on http://127.0.0.1:${port}`);
     await createWindow(port);
 });

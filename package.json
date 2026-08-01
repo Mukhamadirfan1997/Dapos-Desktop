@@ -5,8 +5,8 @@
     "scripts": {
         "build": "vite build",
         "dev": "vite",
-        "electron": "electron electron/main.js",
-        "start": "electron electron/main.js",
+        "electron": "electron .",
+        "start": "electron .",
         "dist:win": "npm run build && electron-builder --win"
     },
     "devDependencies": {
@@ -20,7 +20,7 @@
         "vite": "^7.0.7"
     },
     "name": "dapos-desktop",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "DAPOS - Data Pokok Sekolah Desktop",
     "main": "electron/main.js",
     "keywords": [
@@ -54,7 +54,8 @@
             "artisan",
             "composer.json",
             "composer.lock",
-            "!node_modules/**"
+            "!node_modules/**",
+            "!database/database.sqlite*"
         ],
         "win": {
             "target": [
@@ -68,6 +69,7 @@
             "createDesktopShortcut": true,
             "createStartMenuShortcut": true,
             "shortcutName": "DAPOS Desktop",
+            "deleteAppDataOnUninstall": false,
             "installerIcon": "build/icon.ico",
             "uninstallerIcon": "build/icon.ico",
             "installerHeaderIcon": "build/icon.ico",
